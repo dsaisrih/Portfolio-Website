@@ -465,6 +465,7 @@ section{position:relative;z-index:2;}
 .s-active{background:rgba(0,200,232,.1);color:var(--cyan);border:1px solid rgba(0,200,232,.25);}
 .s-dev{background:rgba(251,146,60,.1);color:#fb923c;border:1px solid rgba(251,146,60,.25);}
 .s-done{background:rgba(167,139,250,.1);color:#a78bfa;border:1px solid rgba(167,139,250,.2);}
+.s-soon{background:rgba(200,80,255,.1);color:#c850ff;border:1px solid rgba(200,80,255,.25);}
 .proj-body{padding:20px;flex:1;display:flex;flex-direction:column;}
 .proj-title{font-family:var(--font-display);font-size:14px;font-weight:600;color:var(--proj-title-c);letter-spacing:.04em;margin-bottom:8px;}
 .proj-desc{font-size:11.5px;font-weight:300;color:rgba(var(--soft-rgb),.5);line-height:1.65;flex:1;margin-bottom:16px;}
@@ -759,7 +760,7 @@ footer{
       <span class="sec-tag">04</span>
       <div class="sec-title-wrap"><h2 class="sec-title">Projects</h2></div>
       <div class="sec-line"></div>
-      <span class="sec-num">[10 Total]</span>
+      <span class="sec-num" id="proj-count-tag">[10 Total]</span>
     </div>
     <div class="proj-search zoom-section">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -930,7 +931,10 @@ const ARSENAL = [
    icons:[{i:'docker',l:'Docker'},{i:'linux',l:'Linux'},{i:'git',l:'Git'},{i:'github',l:'GitHub'},{i:'nginx',l:'Nginx'},{i:'vscode',l:'VS Code'},{i:'aws',l:'AWS'}]},
 ];
 const PROJECTS = [
-  {icon:'🛰',name:'AI Crime Path Reconstructor',desc:'GIS-powered AI system for real-time crime route mapping and prediction. Integrates OSRM with FastAPI and a React dashboard.',stack:'React · FastAPI · OSRM · GIS',domain:'AI / Security',pct:72,status:'active',tags:['security','ai'],tech:'Python, FastAPI, React, OSRM, GIS',impact:'Real-time crime route mapping & prediction',repo:'https://github.com/dsaisrih/AI-Crime-Path-Reconstructor',live:''},
+  {icon:'🛰',name:'AI Crime Path Reconstructor',desc:'GIS-powered AI system for real-time crime route mapping and prediction. Integrates OSRM with FastAPI and a React dashboard.',stack:'React · FastAPI · OSRM · GIS',domain:'AI / Security',pct:72,status:'active',tags:['security','ai'],tech:'Python, FastAPI, React, OSRM, GIS',impact:'Real-time crime route mapping & prediction',repo:'https://github.com/dsaisrih/AI-Crime-Path-Reconstructor',live:'https://dsaisrih.github.io/AI-Crime-Path-Reconstructor/'},
+  {icon:'🌌',name:'Cosmo Lens — Project Zenith',desc:'Celestial Eye — an immersive astral web experience exploring space visualization and cosmic data through an interactive lens interface. Built for Astral Web 26.',stack:'TypeScript · React · WebGL',domain:'Space / Web',pct:88,status:'live',tags:['ai'],tech:'TypeScript, React, WebGL',impact:'Immersive astral web visualization experience',repo:'https://github.com/dsaisrih/CosmoLens-Project-Zenith-Celestial-Eye-',live:'https://cosmo-lens-project-zenith-celestial-eight.vercel.app/'},
+  {icon:'📝',name:'Marginalia',desc:'A minimalist, Firebase-backed note-taking app — "Notes worth keeping." Supports pinning, archiving, markdown export, and cross-device sync.',stack:'JavaScript · Firebase · Firestore',domain:'Productivity',pct:80,status:'live',tags:['ai'],tech:'JavaScript, Firebase, Firestore Auth',impact:'Cross-device note-taking with secure sync',repo:'https://github.com/dsaisrih/Marginalia',live:'https://dsaisrih.github.io/Marginalia/'},
+  {icon:'🚀',name:'Major Project — Loading Soon',desc:'Something big is currently in the works. Details are under wraps for now — check back soon for the reveal.',stack:'TBA',domain:'Undisclosed',pct:0,status:'soon',tags:[],tech:'TBA',impact:'To be announced',repo:'',live:''},
   {icon:'⚛',name:'Quantum Multi-Fault Classification',desc:'Noise-resilient quantum circuit fault detection using Qiskit AerSimulator. Fidelity analysis at 90% completion.',stack:'Qiskit · React · AerSimulator',domain:'Quantum AI',pct:86,status:'live',tags:['quantum'],tech:'Qiskit, AerSimulator, React, Python',impact:'Noise-resilient quantum circuit fault detection',repo:'https://github.com/dsaisrih/Quantum-Multi-Fault-Classification-',live:'https://quantum-multi-fault-classification.vercel.app'},
   {icon:'📈',name:'Quantum Portfolio Optimizer',desc:'QAOA-powered financial portfolio optimization. Research-stage quantum ML experiment with backtesting engine.',stack:'Qiskit · FastAPI · React',domain:'Quantum Finance',pct:65,status:'active',tags:['quantum','ai'],tech:'Qiskit, FastAPI, React, Python',impact:'QAOA-powered financial portfolio optimization',repo:'https://github.com/dsaisrih/Quantum-Portfolio-Optimizer',live:''},
   {icon:'🔐',name:'AI Social Engineering Detector',desc:'NLP-powered system to detect phishing attempts and social manipulation in real-time using a trained transformer model.',stack:'NLP · FastAPI · React',domain:'Cyber Security',pct:55,status:'dev',tags:['security','ai'],tech:'NLP, FastAPI, React, Python, HuggingFace',impact:'AI-powered phishing & manipulation detection',repo:'https://github.com/dsaisrih/AI-Social-Engineering-Detector',live:''},
@@ -942,9 +946,10 @@ const PROJECTS = [
   {icon:'🤖',name:'AI Network Anomaly Monitor',desc:'Real-time ML-based traffic anomaly detection via live packet capture. Isolation Forest model with alert dashboard.',stack:'Python · ML · Sockets',domain:'Network Security',pct:45,status:'dev',tags:['security','ai'],tech:'Python, Scapy, ML, Sockets',impact:'Real-time ML-based traffic anomaly detection',repo:'https://github.com/dsaisrih/AI-Network-Anomaly-Monitor',live:''},
 ];
 /* NOTE: `live` fields are placeholders — swap in your real deployed URLs (Vercel/Render/etc).
-   Projects with an empty live string will show a "Not Deployed" slot instead of a broken link. */
-const SC = {active:'s-active',live:'s-live',dev:'s-dev',done:'s-done'};
-const ST = {active:'Active',live:'Live ✓',dev:'In Dev',done:'Done'};
+   Projects with an empty live string will show a "Not Deployed" slot instead of a broken link.
+   Projects with an empty repo string will show a "Coming Soon" slot instead of a broken link. */
+const SC = {active:'s-active',live:'s-live',dev:'s-dev',done:'s-done',soon:'s-soon'};
+const ST = {active:'Active',live:'Live ✓',dev:'In Dev',done:'Done',soon:'Coming Soon'};
 
 /* ══ MARQUEE ══ */
 const MARQUEE_ITEMS = ['Python','Qiskit','FastAPI','OpenCV','TensorFlow','Kali Linux','React','Burp Suite','Docker','PostgreSQL','MediaPipe','Scikit-Learn','OSINT','Wireshark','Metasploit','NumPy'];
@@ -994,7 +999,9 @@ function renderProjects(f){
         <div class="proj-footer"><span class="proj-stack">${p.stack}</span><span class="proj-pct">${p.pct}%</span></div>
         <div class="mini-bar"><div class="mini-fill" data-pct="${p.pct}"></div></div>
         <div class="proj-links">
-          <a class="pl-btn" href="${p.repo}" target="_blank" rel="noopener" onclick="event.stopPropagation()">🐙 GitHub</a>
+          ${p.repo
+            ? `<a class="pl-btn" href="${p.repo}" target="_blank" rel="noopener" onclick="event.stopPropagation()">🐙 GitHub</a>`
+            : `<span class="pl-btn pl-disabled">🔒 Coming Soon</span>`}
           ${p.live
             ? `<a class="pl-btn pl-live" href="${p.live}" target="_blank" rel="noopener" onclick="event.stopPropagation()">🚀 Live</a>`
             : `<span class="pl-btn pl-disabled">⏳ Not Deployed</span>`}
@@ -1032,7 +1039,13 @@ function openModal(name){
     <div class="meta-item"><div class="meta-label">Impact</div><div class="meta-val">${p.impact}</div></div>
     <div class="meta-item"><div class="meta-label">Tech</div><div class="meta-val">${p.tech}</div></div>
     <div class="meta-item"><div class="meta-label">Domain</div><div class="meta-val">${p.domain}</div></div>`;
-  document.getElementById('m-github').onclick = ()=>window.open(p.repo,'_blank');
+  const githubBtn = document.getElementById('m-github');
+  if(p.repo){
+    githubBtn.style.display = 'flex';
+    githubBtn.onclick = ()=>window.open(p.repo,'_blank');
+  } else {
+    githubBtn.style.display = 'none';
+  }
   const liveBtn = document.getElementById('m-live');
   if(p.live){
     liveBtn.style.display = 'flex';
@@ -1082,7 +1095,8 @@ function animCount(id,target,sfx){
   let v=0; const el=document.getElementById(id);
   const t=setInterval(()=>{ v=Math.min(v+Math.ceil(target/26),target); el.textContent=v+(sfx||''); if(v>=target)clearInterval(t); },45);
 }
-setTimeout(()=>{ animCount('cnt1',10); animCount('cnt2',7); animCount('cnt3',25,'+'); },500);
+setTimeout(()=>{ animCount('cnt1',PROJECTS.length); animCount('cnt2',7); animCount('cnt3',25,'+'); },500);
+document.getElementById('proj-count-tag').textContent = '['+PROJECTS.length+' Total]';
 
 /* ══ SCROLL OBSERVER (for stagger-parent & sec-title-wrap) ══ */
 const obs = new IntersectionObserver(entries=>{
