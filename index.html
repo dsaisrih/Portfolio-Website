@@ -148,8 +148,8 @@ nav{position:fixed;top:0;width:100%;z-index:100;padding:18px 6%;display:flex;ali
 nav::before{content:'';position:absolute;inset:0;background:rgba(7,9,15,0);backdrop-filter:blur(0px);border-bottom:1px solid transparent;transition:all .4s;z-index:-1;}
 nav.scrolled::before{background:var(--nav-bg);backdrop-filter:blur(24px);border-bottom-color:var(--border);}
 nav.scrolled{padding:12px 6%;}
-.nav-logo{font-family:var(--font-display);font-size:16px;font-weight:700;letter-spacing:.18em;color:var(--heading);text-transform:uppercase;}
-.nav-logo em{color:var(--cyan);font-style:normal;}
+.nav-logo{font-family:var(--font-display);font-size:15px;font-weight:700;letter-spacing:.12em;color:var(--heading);text-transform:uppercase;white-space:nowrap;}
+.nav-logo em{color:var(--heading);font-style:normal;}
 .nav-links{display:flex;gap:2px;}
 .nav-link{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);text-decoration:none;padding:7px 15px;border-radius:6px;transition:color .2s;position:relative;}
 .nav-link::after{content:'';position:absolute;bottom:4px;left:50%;right:50%;height:1px;background:var(--cyan);transition:left .25s,right .25s;}
@@ -536,6 +536,32 @@ footer{
 .footer-status{display:flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:10.5px;color:#22d97a;}
 
 /* ══════════════════════════════════════════
+   CERTIFICATIONS
+══════════════════════════════════════════ */
+.cert-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;}
+.cert-card{
+  background:var(--card-75);border:1px solid var(--border);border-radius:14px;overflow:hidden;
+  cursor:pointer;display:flex;flex-direction:column;position:relative;
+  transition:border-color .25s,transform .3s,box-shadow .3s;
+  animation: cardZoom linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 70%;
+}
+.cert-card:hover{border-color:rgba(18,70,240,.5);transform:translateY(-6px) scale(1.01);box-shadow:0 20px 60px rgba(18,70,240,.18),0 0 0 1px rgba(0,200,232,.08);}
+.cert-thumb{height:170px;overflow:hidden;position:relative;background:var(--thumb-grad);}
+.cert-thumb img{width:100%;height:100%;object-fit:cover;object-position:top;filter:saturate(.85);transition:transform .45s,filter .35s;}
+.cert-card:hover .cert-thumb img{transform:scale(1.06);filter:saturate(1);}
+.cert-tag{position:absolute;top:10px;right:10px;font-family:var(--font-mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;padding:3px 10px;border-radius:4px;background:rgba(0,200,232,.1);color:var(--cyan);border:1px solid rgba(0,200,232,.25);}
+.cert-body{padding:18px 20px 20px;flex:1;display:flex;flex-direction:column;}
+.cert-title{font-family:var(--font-display);font-size:13.5px;font-weight:600;color:var(--proj-title-c);letter-spacing:.03em;margin-bottom:6px;line-height:1.4;}
+.cert-issuer{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;color:var(--cyan);margin-bottom:10px;}
+.cert-desc{font-size:11.5px;font-weight:300;color:rgba(var(--soft-rgb),.5);line-height:1.6;flex:1;}
+.cert-view{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-top:14px;display:flex;align-items:center;gap:6px;transition:color .2s;}
+.cert-card:hover .cert-view{color:var(--cyan);}
+.cert-modal{max-width:620px;}
+.cert-modal img{width:100%;border-radius:10px;margin-bottom:20px;border:1px solid var(--border);}
+
+/* ══════════════════════════════════════════
    RESPONSIVE
 ══════════════════════════════════════════ */
 @media(max-width:860px){
@@ -544,6 +570,7 @@ footer{
   footer{flex-direction:column;gap:12px;text-align:center;}
   #cursor,#cursor-ring{display:none;}
   #scroll-top{bottom:20px;right:20px;}
+  .nav-logo{font-size:12px;letter-spacing:.08em;}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation-duration:.01ms !important;transition-duration:.01ms !important;}
@@ -568,12 +595,13 @@ footer{
 
 <!-- NAV -->
 <nav id="nav">
-  <div class="nav-logo">D_SAI_<em>SRI</em></div>
+  <div class="nav-logo">D SAI SRI <em>HARSHIT</em></div>
   <div class="nav-links">
     <a class="nav-link active" href="#hero">Home</a>
     <a class="nav-link" href="#about">About</a>
     <a class="nav-link" href="#skills">Skills</a>
     <a class="nav-link" href="#quantum">Quantum</a>
+    <a class="nav-link" href="#certifications">Certs</a>
     <a class="nav-link" href="#projects">Projects</a>
     <a class="nav-link" href="#contact">Contact</a>
   </div>
@@ -753,11 +781,26 @@ footer{
 
 <div class="divider-anim"></div>
 
+<!-- ══ CERTIFICATIONS ══ -->
+<section id="certifications" class="section-pad">
+  <div class="container">
+    <div class="section-eyebrow zoom-eyebrow">
+      <span class="sec-tag">04</span>
+      <div class="sec-title-wrap"><h2 class="sec-title">Certifications</h2></div>
+      <div class="sec-line"></div>
+      <span class="sec-num">[Achievements]</span>
+    </div>
+    <div class="cert-grid" id="cert-grid"></div>
+  </div>
+</section>
+
+<div class="divider-anim"></div>
+
 <!-- ══ PROJECTS ══ -->
 <section id="projects" class="section-pad">
   <div class="container">
     <div class="section-eyebrow zoom-eyebrow">
-      <span class="sec-tag">04</span>
+      <span class="sec-tag">05</span>
       <div class="sec-title-wrap"><h2 class="sec-title">Projects</h2></div>
       <div class="sec-line"></div>
       <span class="sec-num" id="proj-count-tag">[10 Total]</span>
@@ -784,7 +827,7 @@ footer{
 <section id="contact" class="section-pad">
   <div class="container">
     <div class="section-eyebrow zoom-eyebrow">
-      <span class="sec-tag">05</span>
+      <span class="sec-tag">06</span>
       <div class="sec-title-wrap"><h2 class="sec-title">Contact</h2></div>
       <div class="sec-line"></div>
       <span class="sec-num">[Secure Channel]</span>
@@ -842,6 +885,17 @@ footer{
       <button class="btn btn-ghost" id="m-github"><span>🐙</span> View on GitHub</button>
       <button class="btn btn-primary" id="m-live"><span>🚀</span> Live Demo</button>
     </div>
+  </div>
+</div>
+
+<!-- CERT MODAL -->
+<div class="modal-overlay" id="cert-overlay" onclick="closeCertModal(event)">
+  <div class="modal cert-modal" id="cert-modal">
+    <button class="modal-close" onclick="closeCertModal()">✕</button>
+    <img id="cert-modal-img" src="" alt="">
+    <div class="modal-title" id="cert-modal-title"></div>
+    <div class="modal-domain" id="cert-modal-issuer"></div>
+    <div class="modal-desc" id="cert-modal-desc"></div>
   </div>
 </div>
 
@@ -950,6 +1004,13 @@ const PROJECTS = [
    Projects with an empty repo string will show a "Coming Soon" slot instead of a broken link. */
 const SC = {active:'s-active',live:'s-live',dev:'s-dev',done:'s-done',soon:'s-soon'};
 const ST = {active:'Active',live:'Live ✓',dev:'In Dev',done:'Done',soon:'Coming Soon'};
+
+const CERTS = [
+  {img:'certs/codefest.jpg',tag:'Hackathon',title:'CodeFest \'26 — Vista Event',issuer:'IIT (BHU) Varanasi · Dept. of CSE',desc:'Certificate of participation for the Vista event at CodeFest \'26, the annual technical fest of the Department of Computer Science and Engineering, IIT (BHU) Varanasi.'},
+  {img:'certs/codevita12.jpg',tag:'Competitive Programming',title:'TCS CodeVita — Season 12',issuer:'Tata Consultancy Services',desc:'Rank certificate for securing a global rank of 2341 in TCS CodeVita Season 12, awarded for showcasing exceptional coding skills.'},
+  {img:'certs/codevita13.jpg',tag:'Competitive Programming',title:'TCS CodeVita — Season 13',issuer:'Tata Consultancy Services',desc:'Rank certificate for securing a global rank of 2990 in TCS CodeVita Season 13, awarded for showcasing exceptional coding skills.'},
+  {img:'certs/certifyo.jpg',tag:'Hackathon',title:'AIWS Hackfest (AI + AWS)',issuer:'CertifyO',desc:'Certificate of participation for an 8-hour hackathon spanning AI and AWS, representing Team TopBlocker at SRM Chengalpattu.'},
+];
 
 /* ══ MARQUEE ══ */
 const MARQUEE_ITEMS = ['Python','Qiskit','FastAPI','OpenCV','TensorFlow','Kali Linux','React','Burp Suite','Docker','PostgreSQL','MediaPipe','Scikit-Learn','OSINT','Wireshark','Metasploit','NumPy'];
@@ -1065,6 +1126,40 @@ function closeModal(e){
 }
 document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
 
+/* ══ CERTIFICATIONS ══ */
+function renderCerts(){
+  const g = document.getElementById('cert-grid');
+  g.innerHTML = CERTS.map((c,i)=>`
+    <div class="cert-card" onclick="openCertModal(${i})">
+      <div class="cert-thumb">
+        <img src="${c.img}" alt="${c.title}" loading="lazy">
+        <span class="cert-tag">${c.tag}</span>
+      </div>
+      <div class="cert-body">
+        <div class="cert-title">${c.title}</div>
+        <div class="cert-issuer">${c.issuer}</div>
+        <div class="cert-desc">${c.desc}</div>
+        <div class="cert-view">🔍 View Certificate</div>
+      </div>
+    </div>`).join('');
+}
+function openCertModal(i){
+  const c = CERTS[i]; if(!c) return;
+  document.getElementById('cert-modal-img').src = c.img;
+  document.getElementById('cert-modal-img').alt = c.title;
+  document.getElementById('cert-modal-title').textContent = c.title;
+  document.getElementById('cert-modal-issuer').textContent = c.issuer;
+  document.getElementById('cert-modal-desc').textContent = c.desc;
+  document.getElementById('cert-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCertModal(e){
+  if(e && e.target !== document.getElementById('cert-overlay') && !e.target.classList.contains('modal-close')) return;
+  document.getElementById('cert-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeCertModal(); });
+
 /* ══ NAME CHARS ══ */
 function splitChars(el, baseDelay, charDelay){
   const text = el.textContent.trim(); el.textContent='';
@@ -1113,7 +1208,7 @@ function initObs(){
 /* ══ SCROLL: progress + nav + scroll-to-top ══ */
 const scrollBar = document.getElementById('scroll-bar');
 const scrollTopBtn = document.getElementById('scroll-top');
-const SECS = ['hero','about','skills','quantum','projects','contact'];
+const SECS = ['hero','about','skills','quantum','certifications','projects','contact'];
 let ticking = false;
 
 function onScroll(){
@@ -1179,6 +1274,7 @@ if(emailLink){
 buildMarquee();
 renderSkills();
 renderProjects('all');
+renderCerts();
 setTimeout(initObs, 80);
 </script>
 </body>
